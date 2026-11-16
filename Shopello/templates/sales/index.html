@@ -1,0 +1,55 @@
+{% extends 'inc/base.html' %}{% block content %}
+<div class="container my-3">
+    {% comment %}<h2 style="color:#800517">Sales</h2>{% endcomment %}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div class="alert alert-primary" role="alert">{{ message }}</div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'createSale' %}">
+            <button type="button" class="btn text-white" style="background-color:#800517">
+                <span class="fa fa-plus"></span>
+            </button>
+        </a>
+    </div>
+    <br />
+    <table class="table table-bordered">
+        <thead class="text-white font-weight-bold" style="background-color: #800517">
+            <tr>
+                <th>Sale No.</th>
+                <th>Date</th>
+                <th>Customer Name</th>
+                <th>Center Name</th>
+                <th>Total Amount</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in sales %}
+            <tr>
+                <td>{{sale.saleNo}}</td>
+                <td>{{sale.saleDate}}</td>
+                <td>{{sale.customerName}}</td>
+                <td>{{sale.centerName}}</td>
+                <td>{{sale.tAmount}}</td>
+                <td>
+                    <a href="{% url 'editSaleView' sale.pk %}" class="text-decoration-none">
+                        <button type="button" class="btn btn-info">
+                            <span class="fa fa-pen text-white"></span>
+                        </button>
+                    </a>
+                    <a href="{% url 'deleteSale' sale.pk %}" class="text-decoration-none">
+                        <button type="button" class="btn btn-danger">
+                            <span class="fa fa-trash"></span>
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

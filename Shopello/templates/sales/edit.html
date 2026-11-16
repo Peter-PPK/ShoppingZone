@@ -1,0 +1,97 @@
+{% extends 'inc/base.html' %}{% block content %}
+<div class="container my-3">
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'saleList' %}">
+            <button type="button" class="btn text-white" style="background-color: #800517">
+                <span class="fa fa-backward"></span>
+            </button>
+        </a>
+    </div>
+    <br />
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div class="alert alert-primary" role="alert">{{message}}</div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="card">
+        <h5 class="card-header text-white" style="background-color: #800517">Edit Sale</h5>
+        <div class="card-body">
+            <form action={% url "editSale" sale.id %} method="POST">
+                    {% csrf_token %}
+                <div class="d-flex">
+                    <div class="p-2 w-75">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group my-2">
+                                    <label for="saleNo"><strong>Sale No:</strong></label>
+                                    <input type="text" class="form-control" id="saleNo" name="saleNo" value="{{sale.saleNo}}">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group my-2">
+                                    <label for="saleNo"><strong>Sale Date:</strong></label>
+                                    <input type="text" class="form-control" id="saleDate" name="saleDate" value={{sale.saleDate|sate:'Y-m-d'}}>
+                                </div>
+                            </div>
+                        <h5 class="" style="color: #800517; font-weight:bold">Sale Products</h5>
+                        <table id="tableID" class="table table-bordered">
+                            <thead class="text-white" style="background-color: #800517">
+                                    <th>Product Name</th>
+                                    <th>Sale Type</th>
+                                    <th>Qty</th>
+                                    <th>Amount</th>
+                            </thead>
+                            <tbody>
+                                {% for saleDetail in saleDetails %}
+                                <tr>
+                                    <td>{{saleDetail.productName}}</td>
+                                    <td>{{saleDetail.saleType}}</td>
+                                    <td>{{saleDetail.quantity}}</td>
+                                    <td>{{saleDetail.total}}</td>
+                                    {% endfor %}
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <button type="submit" class="btn m-2 text-white" style="background-color: #800517">Post</button>
+                    </div>
+                    <div class="p-2 w-25 text-white">
+                        <div class="sdadow my-4 rounded text-white p-1" style="background-color: #800517; font-size: 14px;">
+                            <h6 class="text-center text-white p-2">Vocher</h6>
+                                <div class="row">
+                                        <div class="col-lg-6"><lable>Total Amount:</lable></div>
+                                        <div class="col-lg-6">
+                                                <input type="text" id="totalValue" name="amount" value={{sale.tAmount}} class="form-control my-1" readonly>
+                                        </div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-lg-6"><lable>Discount:</lable></div>
+                                        <div class="col-lg-6"><input type="text" id="discount" name="discount" value={{sale.discount}} class="form-control my-1" onkeyup="calc2()" readonly></div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-lg-6"><lable>Tax:</lable></div>
+                                        <div class="col-lg-6"><input type="text" id="tax" name="tax" value={{sale.tax}} class="form-control my-1" onkeyup="calc2()" readonly></div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-lg-6"><lable>Balance:</lable></div>
+                                        <div class="col-lg-6"><input type="text" id="balance" name="balance" value={{sale.balance}} class="form-control my-1" readonly></div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-lg-6"><lable>Paid:</lable></div>
+                                        <div class="col-lg-6"><input type="text" id="paid" name="paid" value={{sale.paid}} class="form-control my-1" onkeyup="calc2()" readonly></div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-lg-6"><lable for="">Credits:</lable></div>
+                                        <div class="col-lg-6"><input type="text" id="credit" name="credit" value={{sale.credit}} class="form-control my-1" readonly></div>
+                                </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
