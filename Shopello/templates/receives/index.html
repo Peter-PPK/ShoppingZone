@@ -1,0 +1,52 @@
+{% extends 'inc/base.html' %}{% block content %}
+<div class="container my-3">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div class="alert alert-primary" role="alert">{{message}}</div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'createReceive' %}">
+            <button type="button" class="btn text-white" style="background-color: #800517">
+                <span class="fa fa-plus"></span>
+            </button>
+        </a>
+    </div>
+    <br/>
+    <table class="table table-bordered">
+        <thead class="text-white font-weight-bold" style="border: #800517">
+            <tr>
+                <th>Receive No.</th>
+                <th>Date</th>
+                <th>Center Name</th>
+                <th>Note</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for receive in receives %}
+            <tr>
+                <td>{{receive.receiveNo}}</td>
+                <td>{{receive.receiveDate}}</td>
+                <td>{{receive.centerName}}</td>
+                <td>{{receive.note}}</td>
+                <td>
+                    <a href="{% url 'editReceiveView' receive.pk %}" class="text-decoration-none">
+                        <button type="button" class="btn btn-info">
+                            <span class="fa fa-pen text-white"></span>
+                        </button>
+                    </a>
+                    <a href="{% url 'deleteReceive' receive.pk %}" class="text-decoration-none">
+                        <button type="button" class="btn btn-danger">
+                            <span class="fa fa-trash"></span>
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
