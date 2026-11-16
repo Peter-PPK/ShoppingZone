@@ -1,0 +1,49 @@
+{% extends 'inc/base.html' %} {% block content %}
+<div class="container my-3">
+        <div class="d-flex justify-content-end">
+        <a href="{% url 'centerList' %}">
+            <button type="button" class="btn text-white" style="background-color: #800517">
+                <span class="fa fa-backward"></span>
+            </button>
+        </a>
+    </div><br>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div class="alert alert-primary" role="alert">{{ message }}</div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="card">
+        <h5 class="card-header text-white" style="background-color: #800517">Edit Center</h5>
+        <div class="card-body">
+            <form action={% url 'editCenter' center.id %} method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="centerName"><strong>Center Name</strong></label>
+                    <input type="text" class="form-control" id="centerName" name="centerName" value="{{center.centerName}}">
+                </div>
+                <div class="form-group my-2">
+                    <label for="centerName"><strong>Address</strong></label>
+                    <textarea class="form-control" id="address" name="address">{{center.address}}</textarea>
+                </div>
+                <div class="form-group my-2">
+                    <label for="cityName"><strong>City Name</strong></label>
+                    <select class="form-select" aria-label="Default select example" name="cityName">
+                        <option value="">---Select City Name---</option>
+                        {% for city in cities %}
+                        <option value={{city.id}} {% if center.cityID_id == city.id %} selected {% endif %}>{{ city.cityName}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group my-2">
+                    <label for="statud"><strong>Status</strong></label><br>
+                    <input id="open" type="radio" name="status" value="Open" {% if center.status == 'Open' %} checked {% endif %}>Open
+                    <input id="close" type="radio" name="status" value="Close" {% if center.status == 'Closed' %} checked {% endif %}>Closed
+                </div>
+                <button type="submit" class="btn my-2 text-white" style="background-color: #800517">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

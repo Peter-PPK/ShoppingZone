@@ -1,0 +1,72 @@
+{% extends 'inc/base.html' %}
+{% block content %}
+<div class="container my-3">
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'centerList' %}">
+            <button type="button" class="btn text-white" style="background-color: #800517">
+                <span class="fa fa-backward"></span>
+            </button>
+        </a>
+    </div><br>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div class="alert alert-primary" role="alert">{{ message }}</div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="card">
+    <h5 class="card-header text-white" style="background-color: #800517">Add New Center</h5>
+    <div class="card-body">
+        <form action={% url "storeCenter" %} method="POST">
+            {% csrf_token %}
+            <div class="form-group my-2">
+                <label for="centerName"><strong>Center Name:</strong></label>
+                <input type="text" class="form-control" id="centerName" name="centerName" />
+            </div>
+            <div class="form-group my-2">
+                <label for="address"><strong>Address:</strong></label>
+                <textarea class="form-control" id="address" name="address"> </textarea>
+            </div>
+            <div class="form-group my-2">
+                <label for="CityName"><strong>City Name:</strong></label>
+                <div class="d-flex">
+                    <select class="form-select w-75" name="cityName">
+                        <option value="">---Select City Name---</option>
+                        {% for city in cities %}
+                        <option value={{ city.id }}>{{ city.cityName }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="button" class="btn text-white font-weight-bold mx-5" style="background-color: #800517" data-bs-toggle="modal" data-bs-target="#createCity">New City</button>
+                </div>
+            </div>
+            <div class="form-group my-2">
+                <label for="status"><strong>Status:</strong></label>
+                <input id="open" type="radio" name="status" value="Open" class="mx-1">Open
+                <input id="close" type="radio" name="status" value="Closed" class="mx-1">Closed
+            </div>
+            <button type="submit" class="btn my-3 text-white" style="background-color: #800517">Post</button>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="createCity" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create City</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action={% url "storeCity" %} method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="cityName" name="cityName" placeholder="Enter City Name"/>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary my-3">Post</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
