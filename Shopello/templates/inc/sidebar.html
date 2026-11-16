@@ -1,0 +1,91 @@
+{% load static %}
+<nav id="sidebar" class="sidebar-wrapper">
+    <div class="sidebar-content">
+        <div class="sidebar-brand">
+            <a href="#" class="text-white">SHOPPING ZONE</a>
+            <div id="close-sidebar">
+                <i class="fas fa-times text-white"></i>
+            </div>
+        </div>
+        <div class="sidebar-header">
+            <div class="user-pic">
+                <img class="img-responsive img-rounded" alt="User picture" />
+            </div>
+            <div class="user-info text-white">
+                <span class="user-name">
+                    <strong>Pyae Phyo Kyaw</strong>
+                </span>
+                <span class="user-role text-white">Administrator</span>
+                <span class="user-status text-white">
+                    <i class="fa fa-circle"></i>
+                    <span>Online</span>
+                </span>
+            </div>
+        </div>
+        <!-- sidebar-header -->
+        <div class="sidebar-menu">
+            <ul>
+                <li class="header-menu">
+                    <span class="text-white">General</span>
+                </li>
+                    <li class="sidebar-dropdown">
+                    <a data-bs-toggle="collapse" href="#customer" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fas fa-users mr-3"></i>Customer
+                    </a>
+                    <div class="sidebar-submenu collapse" id="customer">
+                    <ul>
+                            <li>
+                                <a href="{% url 'createCustomer' %}">
+                                    <i class="fa fa-plus mr-3"></i>
+                                    <span class="menu-collapsed">New Customer</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'customerList' %}">
+                                    <i class="fas fa-list mr-3"></i>
+                                    <span class="menu-collapsed">Customer List</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="header-menu">
+                    <span class="text-white">Extra</span>
+                </li>
+                <li>
+                    <a href="{% url 'centerList' %}">
+                        <i class="fas fa-building mr-3"></i>
+                        <span>Center</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'productList' %}">
+                        <i class="fas fa-box-open mr-3"></i>
+                        <span>Product</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-user mr-3"></i>
+                        <span>User</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- sidebar-menu -->
+    </div>
+    <!-- sidebar-content -->
+    <div class="sidebar-footer">
+        <a href="#">
+            <i class="fa fa-bell"></i>
+            <span class="badge badge-pill badge-warning notification">3</span>
+        </a>
+        <a href="#">
+            <i class="fa fa-envelope"></i>
+            <span class="badge badge-pull badge-success notification">7</span>
+        </a>
+        </a>
+        <a href="#">
+            <i class="fa fa-power-off"></i>
+        </a>
+    </div>
+</nav>
