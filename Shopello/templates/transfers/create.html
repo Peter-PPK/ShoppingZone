@@ -1,0 +1,112 @@
+{% extends 'inc/base.html' %}{% block content %}
+<div class="container my-3">
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'transferList' %}">
+            <button type="button" class="btn text-white" style="background-color: #800517">
+                <span class="fa fa-backward"></span>
+            </button>
+        </a>
+    </div>
+    <br/>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div class="alert alert-primary" role="alert">{{message}}</div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="card">
+        <h5 class="card-header text-white" style="background-color: #800517">Add New Transfer</h5>
+        <div class="card-body">
+            <form action={% url "storeTransfer" %} method="POST">
+                    {% csrf_token %}
+                <div class="d-flex">
+                    <div class="p-2 w-100">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group my-2">
+                                    <label for="transferNo"><strong>Transfer No:</strong></label>
+                                    <input type="text" class="form-control" id="transferNo" name="transferNo"/>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group my-2">
+                                    <label for="transferDate"><strong>Transfer Date:</strong></label>
+                                    <input type="date" class="form-control" id="transferDate" name="transferDate"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group my-2">
+                                    <label for="fromCenter"><strong>From Center:</strong></label>
+                                    <div class="d-flex">
+                                        <select class="form-select w-75" name="fromCenter">
+                                            <option value="">---Select Center---</option>
+                                            {% for center in centers %}
+                                            <option value="{{center.id}}">
+                                                {{center.centerName}}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group my-2">
+                                    <label for="toCenter"><strong>To Center:</strong></label>
+                                    <div class="d-flex">
+                                        <select class="form-select w-75" name="toCenter">
+                                            <option value="">---Select Center---</option>
+                                            {% for center in centers %}
+                                            <option value="{{center.id}}">
+                                                {{center.centerName}}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group my-2">
+                            <label for="note"><strong>Note:</strong></label>
+                            <textarea class="form-control" id="note" name="note"></textarea>
+                        </div>
+                        <br/>
+                        <h5 class="" style="color: #800517; font-weight:bold">Transfer Products</h5>
+                        <div class="row" style="font-size:12px">
+                            <div class="col-2">
+                                <label for=""><strong>Product:</strong></label>
+                                <select class="form-select w-75" name="productName" id="productName">
+                                    <option value="">---Select Product---</option>
+                                    {% for product in products %}
+                                    <option value="{{product.id}}">{{product.productName}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <label for=""><strong>Qty:</strong></label>
+                                <input type="number" class="form-control" id="qty" name="qty" onkeyup="calc1()"/>
+                            </div>
+                            <div class="col-2">
+                                <input type="button" class="addReceiveRow btn btn-primary text-white my-3" value="Add">
+                            </div>
+                        </div>
+                        <br/>
+                        <table id="tableID" class="table table-bordered w-50">
+                            <thead class="text-white" style="background-color: #800517">
+                                <th>Product Name</th>
+                                <th>Qty</th>
+                                <th>Action</th>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <br/>
+                        <button type="submit" class="btn m-2 text-white" style="background-color: #800517">Post</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
