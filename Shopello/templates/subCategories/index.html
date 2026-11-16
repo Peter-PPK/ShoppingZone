@@ -1,0 +1,55 @@
+{% extends 'inc/base.html' %}
+{% block content %}
+<div class="container my-3">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div class="alert alert-primary" role="alert">{{ message }}</div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'createsubCategory' %}">
+            <button type="button" class="btn text-white" style="background-color: #800517">
+                <span class="fa fa-plus"></span>
+            </button>
+        </a>
+    </div>
+    <br />
+    <table class="table table-bordered">
+        <thead class="text-white font-weight-bold" style="background-color: #800517">
+            <tr>
+                <th>SubCategory Name</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subCategory in subCategories %}
+            <tr>
+                <td>{{ subCategory.subCategoryName }}</td>
+                <td>{{ subCategory.categoryID.categoryName }}</td>
+                <td>{{ subCategory.status }}</td>
+                <td>
+                    <a href="{% url 'editsubCategoryView' subCategory.pk %}" class="text-decoration-none">
+                        <button type="button" class="btn btn-info">
+                            <span class="fa fa-pen text-white"></span>
+                        </button>
+                    </a>
+                    <a href="{% url 'deletesubCategory' subCategory.pk %}" class="text-decoration-none">
+                        <button type="button" class="btn btn-danger">
+                            <span class="fa fa-trash"></span>
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center">No SubCategories found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
