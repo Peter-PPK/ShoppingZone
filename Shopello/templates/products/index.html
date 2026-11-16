@@ -1,0 +1,61 @@
+{% extends 'inc/base.html' %} {% block content %}
+<div class="container my-3">
+    {% comment %} <h2 style="color: #800517">Products</h2> {% endcomment %}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div class="alert alert-primary" role="alert">{{ message }}</div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'createProduct' %}">
+            <button type="button" class="btn text-white" style="background-color: #800517">
+                <span class="fa fa-plus"></span>
+            </button>
+        </a>
+    </div>
+    <br />
+    <table class="table table-bordered">
+        <thead class="text-white font-weight-bold" style="background-color: #800517">
+            <tr>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Brand</th>
+                <th>Price</th>
+                <th>Size</th>
+                <th>Color</th>
+                <th>Estimated Date</th>
+                <th>Images</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.productName }}</td>
+                <td>{{ product.categoryID.categoryName }}</td>
+                <td>{{ product.brandID.brandName }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.size }}</td>
+                <td>{{ product.color }}</td>
+                <td>{{ product.etaDate|date:'Y-m-d' }}</td>
+                <td><img src="{{ product.productImages.url }}" class="img-responsive" style="width: 100px" /></td>
+                <td>
+                    <a href="{% url 'editProductView' product.pk %}" class="text-decoration-none">
+                        <button type="button" class="btn btn-warning">
+                            <span class="fa fa-pen text-white"></span>
+                        </button>
+                    </a>
+                    <a href="{% url 'deleteProduct' product.pk %}" class="text-decoration-none">
+                        <button type="button" class="btn btn-info">
+                            <span class="fa fa-trash"></span>
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

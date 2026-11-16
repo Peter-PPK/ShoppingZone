@@ -1,0 +1,80 @@
+{% extends 'inc/base.html' %} {% block content %}
+<div class="container my-3">
+        <div class="d-flex justify-content-end">
+        <a href="{% url 'productList' %}">
+            <button type="button" class="btn text-white" style="background-color: #800517">
+                <span class="fa fa-backward"></span>
+            </button>
+        </a>
+    </div><br>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %} <div class="alert alert-primary" role="alert">{{ message }}</div> {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="card">
+        <h5 class="card-header text-white" style="background-color: #800517">Edit Product</h5>
+        <div class="card-body">
+            <form action={% url 'editProduct' product.id %} method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="productName"><strong>Product Name</strong></label>
+                    <input type="text" class="form-control" id="productName" name="productName" value="{{product.productName}}" maxlength=1 />
+                </div>
+                <div class="form-group py-2 image">
+                    <label for="productImage"><strong>Product Image</strong></label>
+                    <input type="hidden" name="image" value={{product.productImage}} />
+                    <img class="img-responsive img-thumbnail mx-5 my-2" src="{{ product.productImages.url}}" style="width: 200px" />
+                    <input type="file" name="productImage" />
+                </div>
+                <div class="form-group my-2">
+                    <label for="categoryName"><strong>Category</strong></label>
+                    <select class="form-select" aria-label="Default select example" name="categoryName">
+                        <option value="">---Select Category Name---</option>
+                        {% for category in categories %}
+                        <option value={{ category.id }} {% if product.categoryID_id == category.id %} selected {% endif %}>{{ category.categoryName }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group my-2">
+                    <label for="brandName"><strong>Brand</strong></label>
+                    <select class="form-select" aria-label="Default select example" name="brandName">
+                        <option value="">---Select Brand Name---</option>
+                        {% for brand in brands %}
+                        <option value={{ brand.id }} {% if product.brandID_id == brand.id %} selected {% endif %}>{{ brand.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="price"><strong>Price</strong></label>
+                    <input type="text" class="form-control" id="price" name="price" value="{{product.price}}">
+                </div>
+                <div class="form-group">
+                    <label for="color"><strong>Color</strong></label>
+                    <input type="text" class="form-control" id="color" name="color" value="{{product.color}}">
+                </div>
+                <div class="form-group">
+                    <label for="size"><strong>Size</strong></label>
+                    <select class="form-select" aria-label="Default select example" name="size">
+                        <option value="">---Select Size---</option>
+                        <option value="XS" {% if product.size == "XS" %} selected {% endif %}>XS</option>
+                        <option value="S" {% if product.size == "S" %} selected {% endif %}>S</option>
+                        <option value="M" {% if product.size == "M" %} selected {% endif %}>M</option>
+                        <option value="L" {% if product.size == "L" %} selected {% endif %}>L</option>
+                    </select>
+                </div>
+                <div class="form-group my-2">
+                    <label for="etaDate"><strong>Estimated Date:</strong></label>
+                    <input type="text" class="form-control" id="etaDate" name="etaDate" value={{ product.etaDate|date:'Y-m-d' }}>
+                </div>
+                <div class="form-group my-2">
+                    <label for="description"><strong>Description</strong></label>
+                    <textarea class="form-control" id="description" name="description">{{product.description}}</textarea>
+                </div>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary my-3">Post</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

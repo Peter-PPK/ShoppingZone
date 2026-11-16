@@ -1,0 +1,137 @@
+{% extends 'inc/base.html' %}
+{% block content %}
+<div class="container my-3">
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'productList' %}">
+            <button type="button" class="btn text-white" style="background-color: #800517">
+                <span class="fa fa-backward"></span>
+            </button>
+        </a>
+    </div><br>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div class="alert alert-primary" role="alert">{{message}}</div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="card">
+    <h5 class="card-header text-white" style="background-color: #800517">Add New Product</h5>
+    <div class="card-body">
+        <form action={% url "storeProduct" %} method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group my-2">
+                <label for="productName"><strong>Product Name:</strong></label>
+                <input type="text" class="form-control" id="productName" name="productName" />
+            </div>
+            <div class="form-group my-2">
+                <label for="productImage"><strong>Product Image:</strong></label>
+                <input type="file" class="form-control" id="productImage" name="productImage" />
+            </div>
+            <div class="form-group my-2">
+                <label for="categoryName"><strong>Category:</strong></label>
+                <div class="d-flex">
+                    <select class="form-select w-75" name="categoryName">
+                        <option value="">---Select Category Name---</option>
+                        {% for category in categories %}
+                        <option value={{ category.id }}>{{ category.categoryName }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="button" class="btn text-white font-weight-bold mx-5" style="background-color: #800517" data-bs-toggle="modal" data-bs-target="#createCategory">New Category</button>
+                </div>
+            </div>
+            <div class="form-group my-2">
+                <label for="categoryName"><strong>Brand:</strong></label>
+                <div class="d-flex">
+                    <select class="form-select w-75" name="brandName">
+                        <option value="">---Select Brand Name---</option>
+                        {% for brand in brands %}
+                        <option value={{ brand.id }}>{{ brand.brandName }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="button" class="btn text-white font-weight-bold mx-5" style="background-color: #800517" data-bs-toggle="modal" data-bs-target="#createBrand">New Brand</button>
+                </div>
+            </div>
+            <div class="form-group my-2">
+                <label for="price"><strong>Price:</strong></label>
+                <input type="text" class="form-control" id="price" name="price" />
+            </div>
+            <div class="form-group my-2">
+                <label for="color"><strong>Color:</strong></label>
+                <input type="text" class="form-control" id="color" name="color" />
+            </div>
+            <div class="form-group my-2">
+                <label for="etaDate"><strong>Estimated Date:</strong></label>
+                <input type="date" class="form-control" id="etaDate" name="etaDate" />
+            </div>
+            <div class="form-group my-2">
+                <label for="size"><strong>Size:</strong></label>
+                <div class="d-flex">
+                    <select class="form-select w-75" name="size">
+                        <option value="">---Select Size---</option>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group my-2">
+                <label for="description"><strong>Description:</strong></label>
+                <textarea name="description" class="form-control"></textarea>
+            </div>
+            <button type="submit" class="btn my-3 text-white" style="background-color: #800517">Post</button>
+        </form>
+    </div>
+    </div>
+</div>
+<div class="modal fade" id="createCategory" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action={% url "storeCategoryAtProduct" %} method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="Enter Category"/>
+                    </div>
+                    <div class="form-group my-2">
+                    <div class="d-flex">
+                        <select class="form-select w-75" name="subCategoryName">
+                            {% for subCategory in subCategories %}
+                            <option value={{ subCategory.id }}>{{ subCategory.subCategoryName }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary my-3">Post</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="createBrand" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create Brand</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action={% url "storeBrandAtProduct" %} method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="brandName" name="brandName" placeholder="Enter Brand"/>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary my-3">Post</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
