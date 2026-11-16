@@ -1,0 +1,73 @@
+{% extends 'inc/base.html' %}
+{% block content %}
+<div class="container my-3">
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'expenseList' %}">
+            <button type="button" class="btn text-white" style="background-color: #800517">
+                <span class="fa fa-backward"></span>
+            </button>
+        </a>
+    </div><br>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div class="alert alert-primary" role="alert">{{message}}</div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="card">
+    <h5 class="card-header text-white" style="background-color: #800517">Add New Expense</h5>
+    <div class="card-body">
+        <form action={% url "storeExpense" %} method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group my-2">
+                <label for="expenseNo"><strong>Expense No:</strong></label>
+                <input type="text" class="form-control" id="expenseNo" name="expenseNo" />
+            </div>
+            <div class="form-group my-2">
+                <label for="centerID"><strong>Center Name:</strong></label>
+                <div class="d-flex">
+                    <select class="form-select w-75" name="centerID" id="centerID">
+                        <option value="">---Select Center---</option>
+                        {% for center in centers %}
+                        <option value="{{ center.id }}">{{ center.centerName }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group my-2">
+                <label for="size"><strong>Payment Type:</strong></label>
+                <div class="d-flex">
+                    <select class="form-select w-75" name="paymentType">
+                        <option value="">---Select Payment Type---</option>
+                        <option value="Card">Credit/Debit Card</option>
+                        <option value="True">True Money</option>
+                        <option value="Bank">Bank</option>
+                        <option value="PayPal">PayPal</option>
+                        <option value="PromptPay">PromptPay</option>
+                        <option value="Cash">Cash</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group my-2">
+                <label for="expenseDate"><strong>Expense Date:</strong></label>
+                <input type="date" class="form-control" id="expenseDate" name="expenseDate" />
+            </div>
+            <div class="form-group my-2">
+                <label for="amount"><strong>Amount:</strong></label>
+                <input type="text" class="form-control" id="amount" name="amount" />
+            </div>
+            <div class="form-group my-2">
+                <label for="approveBy"><strong>ApproveBy:</strong></label>
+                <input type="text" class="form-control" id="approveBy" name="approveBy" />
+            </div>
+            <div class="form-group my-2">
+                <label for="note"><strong>Note:</strong></label>
+                <textarea class="form-control" id="note" name="note"> </textarea>
+            </div>
+            <button type="submit" class="btn my-3 text-white" style="background-color: #800517">Post</button>
+        </form>
+    </div>
+    </div>
+</div>
+{% endblock %}

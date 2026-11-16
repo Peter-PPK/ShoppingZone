@@ -1,0 +1,68 @@
+{% extends 'inc/base.html' %}{% block content %}
+<div class="container my-3">
+        <div class="d-flex justify-content-end">
+        <a href="{% url 'expenseList' %}">
+            <button type="button" class="btn text-white" style="background-color: #800517">
+                <span class="fa fa-backward"></span>
+            </button>
+        </a>
+    </div><br>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div class="alert alert-primary" role="alert">{{ message }}</div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="card">
+        <h5 class="card-header text-white" style="background-color: #800517">Edit expense</h5>
+        <div class="card-body">
+            <form action={% url 'editExpense' expense.id %} method="POST">
+                {% csrf_token %}
+                <div class="form-group my-2">
+                    <label for="expenseNo"><strong>Expense No</strong></label>
+                    <input type="text" class="form-control" id="expenseNo" name="expenseNo" />
+                </div>
+                <div class="form-group my-2">
+                    <label for="centerName"><strong>Center Name</strong></label>
+                    <select class="form-select" aria-label="Default select example" name="centerName">
+                        <option value="">---Select Center Name---</option>
+                        {% for center in centers %}
+                        <option value={{ center.id }} {% if expense.centerID_id == center.id %} selected {% endif %}>{{ center.centerName }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group my-2">
+                    <label for="size"><strong>Payment Type</strong></label>
+                    <select class="form-select" aria-label="Default select example" name="paymentType">
+                        <option value="">---Select Payment Type---</option>
+                        <option value="Card" {% if expense.paymentType == "Card" %} selected {% endif %}>Credit/Debit Card</option>
+                        <option value="True" {% if expense.paymentType == "True" %} selected {% endif %}>True Money</option>
+                        <option value="Bank" {% if expense.paymentType == "Bank" %} selected {% endif %}>Bank</option>
+                        <option value="PayPal" {% if expense.paymentType == "PayPal" %} selected {% endif %}>PayPal</option>
+                        <option value="PromptPay" {% if expense.paymentType == "PromptPay" %} selected {% endif %}>PromptPay</option>
+                        <option value="Cash" {% if expense.paymentType == "Cash" %} selected {% endif %}>Cash</option>
+                    </select>
+                </div>
+                <div class="form-group my-2">
+                    <label for="expenseDate"><strong>Expense Date:</strong></label>
+                    <input type="text" class="form-control" id="expenseDate" name="expenseDate" value={{ product.etaDate|date:'Y-m-d' }}>
+                </div>
+                <div class="form-group my-2">
+                    <label for="amount"><strong>Amount:</strong></label>
+                    <input type="text" class="form-control" id="amount" name="amount" />
+                </div>
+                <div class="form-group my-2">
+                    <label for="approveBy"><strong>Approve By:</strong></label>
+                    <input type="text" class="form-control" id="approveBy" name="approveBy" />
+                </div>
+                <div class="form-group my-2">
+                    <label for="note"><strong>Note</strong></label>
+                    <textarea class="form-control" id="note" name="note"> </textarea>
+                </div>
+                <button typ="submit" class="btn my-2 text-white" style="background-color: #800517">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
