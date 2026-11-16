@@ -1,0 +1,48 @@
+{% extends "inc/base.html" %}{% block content %}
+<div class="container my-3">
+        <div class="d-flex justify-content-end"
+        <a href="{% url "userList" %}">
+            <button type="button" class="btn text-white" style="background-color: #800517">
+                <span class="fa fa-backward"></span>
+            </button>
+        </a>
+    </div><br>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div class="alert alert-primary" role="alert">{{ message }}</div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="card">
+        <h5 class="card-header text-white" style="background-color: #800517;">Edit User</h5>
+        <div class="card-body">
+            <form action={% url "editUser" user.id %} method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group py-2" id="profileImage">
+                    <label for="userImage"><strong>Profile Image:</strong></label>
+                    <img class="img-responsive img-thumbnail mx-5 my-2" src="{{ user.userImage.url }}" style="width: 200px"/>
+                    <input type="file" name="userImage"/>
+                </div>
+                <div class="form-group py-2">
+                    <label for="userName"><strong>Username:</strong></label>
+                    <input type="text" class="form-control" id="userName" name="username" value="{{user.username}}">
+                </div>
+                <div class="form-group py-2">
+                    <label for="email"><strong>Email:</strong></label>
+                    <input type="email" class="form-control" id="email" name="email" value="{{user.email}}">
+                </div>
+                <div class="form-group py-2">
+                    <label for="userType"><strong>User Type:</strong></label>
+                    <select type="text" class="form-control" id="userType" name="userType">
+                            <option value="Admin" {% if user.userType == "Admin" %}selected{% endif %}>Admin</option>
+                            <option value="Manager" {% if user.userType == "Manager" %}selected{% endif %}>Manager</option>
+                            <option value="Staff" {% if user.userType == "Staff" %}selected{% endif %}>Staff</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn my-2 text-white" style="background-color: #800517;">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

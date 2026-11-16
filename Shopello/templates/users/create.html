@@ -1,0 +1,62 @@
+{% extends 'inc/base.html' %}
+{% load i18n widget_tweaks %}
+{% block content %}
+<div class="container my-3">
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'userList' %}">
+            <button type="button" class="btn text-white" style="background-color: #800517">
+                <span class="fa fa-backward"></span>
+            </button>
+        </a>
+    </div>
+    <br />
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div class="alert alert-primary" role="alert">{{message}}</div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="card">
+        <h5 class="card-header text-white" style="background-color: #800517">Add New User</h5>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="error text-danger">{{form.errors.userImage}}</div>
+                <div class="form-group my-2">
+                    <label for="userImage"><strong>Image:</strong></label>
+                    {% render_field form.userImage type="file" class="form-control" id="exampleInputUserImage" %}
+                </div>
+                <div class="error text-danger">{{form.errors.email}}</div>
+                <div class="form-group my-2">
+                    <label for="email"><strong>Email:</strong></label>
+                    {% render_field form.email class="form-control" type="text" %}
+                </div>
+                <div class="error text-danger">{{form.errors.username}}</div>
+                <div class="form-group my-2">
+                    <label for="username"><strong>Username:</strong></label>
+                    {% render_field form.username class="form-control" type="text" id="exampleInputUsername" %}
+                </div>
+                <div class="error text-danger">{{ form.errors.password1 }}</div>
+                <div class="form-group my-2">
+                    <label for="password"><strong>Password:</strong></label>
+                    {% render_field form.password1 class="form-control" type="password" id="exampleInputPassword" %}
+                </div>
+                <div class="error text-danger">{{form.errors.password2}}</div>
+                <div class="form-group my-2">
+                    <label for="confirmPassword"><strong>Confirm Password:</strong></label>
+                    {% render_field form.password2 class="form-control" type="password" id="exampleInputPassword1" %}
+                </div>
+                <div class="error text-danger">{{form.errors.userType}}</div>
+                <div class="form-group my-2">
+                    <label for="userType"><strong>User Type:</strong></label>
+                    {% render_field form.userType class="form-control" type="password" id="exampleInputUserType" %}
+                </div>
+                <div>
+                    <button type="submit" value="Submit" class="btn text-white" style="background-color: #800517;">Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
